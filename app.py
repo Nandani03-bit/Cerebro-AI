@@ -11,7 +11,7 @@ USERS = {
     "admin@cerebro.com": {"password": "admin123",   "name": "Admin"},
 }
 
-for k,v in {"logged_in":False,"user_email":"","user_name":"","dark_mode":True,"chat_history":[],"chat_sessions":[],"show_settings":False,"confidence_threshold":0.85}.items():
+for k,v in {"logged_in":False,"user_email":"","user_name":"","dark_mode":False,"chat_history":[],"chat_sessions":[],"show_settings":False,"confidence_threshold":0.85}.items():
     if k not in st.session_state: st.session_state[k] = v
 
 def welcome_msg():
@@ -37,8 +37,9 @@ section[data-testid="stSidebar"] *{{color:{TEXT}!important;}}
 .stTextInput>div>div>input{{background:{INPUT_BG}!important;color:{TEXT}!important;border:1.5px solid {BORDER}!important;border-radius:12px!important;font-size:0.92rem!important;padding:12px 16px!important;}}
 .stTextInput>div>div>input:focus{{border-color:{ACCENT}!important;box-shadow:0 0 0 3px {ACCENT}22!important;}}
 .stTextInput label{{color:{SUBTEXT}!important;font-size:0.82rem!important;}}
-[data-testid="stChatInput"]>div{{background:{INPUT_BG}!important;border:1.5px solid {BORDER}!important;border-radius:16px!important;}}
-[data-testid="stChatInput"] textarea{{color:{TEXT}!important;}}
+[data-testid="stChatInput"]>div{{background:transparent!important;border:none!important;border-bottom:1.5px solid {BORDER}!important;border-radius:0!important;box-shadow:none!important;}}
+[data-testid="stChatInput"] textarea{{color:{TEXT}!important;background:transparent!important;caret-color:{TEXT}!important;}}
+[data-testid="stChatInput"] textarea::placeholder{{color:{SUBTEXT}!important;}}
 @keyframes brainPulse{{0%,100%{{filter:drop-shadow(0 0 8px {ACCENT}) drop-shadow(0 0 18px {ACCENT}55);transform:scale(1);}}50%{{filter:drop-shadow(0 0 22px {ACCENT}) drop-shadow(0 0 44px {ACCENT}77);transform:scale(1.07);}}}}
 @keyframes fadeUp{{from{{opacity:0;transform:translateY(20px);}}to{{opacity:1;transform:translateY(0);}}}}
 @keyframes msgIn{{from{{opacity:0;transform:translateY(8px);}}to{{opacity:1;transform:translateY(0);}}}}
@@ -66,7 +67,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT}!important;}}
 if not st.session_state.logged_in:
     st.markdown(f"""<div style='text-align:center;padding:40px 0 30px;animation:fadeUp 0.5s ease;'>
     <div style='font-size:4rem;animation:brainPulse 3s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 0 20px {ACCENT});'>🧠</div>
-    <div style='font-family:Syne,sans-serif;font-weight:800;font-size:2.8rem;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-1px;margin-top:6px;'>CEREBRO</div>
+    <div style='font-family:Syne,sans-serif;font-weight:800;font-size:2.8rem;color:{ACCENT};letter-spacing:-1px;margin-top:6px;'>CEREBRO</div>
     <div style='font-size:0.75rem;color:{SUBTEXT};letter-spacing:4px;text-transform:uppercase;margin-top:8px;'>The Knowledge Brain · NLP Project MCA Sem 2</div>
     </div>""", unsafe_allow_html=True)
     _, mid, _ = st.columns([1,1.4,1])
@@ -102,7 +103,7 @@ if not st.session_state.logged_in:
 with st.sidebar:
     st.markdown(f"""<div class='sb-brand'>
     <span style='font-size:1.7rem;filter:drop-shadow(0 0 8px {ACCENT});'>🧠</span>
-    <div><div style='font-family:Syne,sans-serif;font-weight:800;font-size:1rem;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px;'>CEREBRO</div>
+    <div><div style='font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:{ACCENT};letter-spacing:1px;'>CEREBRO</div>
     <div style='font-size:0.58rem;color:{SUBTEXT};letter-spacing:2px;'>THE KNOWLEDGE BRAIN</div></div>
     </div>""", unsafe_allow_html=True)
     st.markdown("<div style='height:6px;'></div>", unsafe_allow_html=True)
@@ -154,25 +155,10 @@ with st.sidebar:
     st.markdown(f"<div style='text-align:center;font-size:0.62rem;color:{SUBTEXT};padding:8px 0 4px;'>MCA Sem 2 · NLP Project · Python 🐍</div>", unsafe_allow_html=True)
 
 # MAIN
-if st.session_state.show_settings:
-    st.markdown(f"<div class='settings-box'>", unsafe_allow_html=True)
-    sc1,sc2,sc3=st.columns(3)
-    with sc1:
-        st.markdown(f"<div style='font-size:0.82rem;font-weight:600;color:{TEXT};margin-bottom:8px;'>🎯 AI Confidence Threshold</div>", unsafe_allow_html=True)
-        val=st.slider("",0.5,1.0,st.session_state.confidence_threshold,0.05,label_visibility="collapsed",key="thresh_slider")
-        st.session_state.confidence_threshold=val
-        st.markdown(f"<div style='font-size:0.75rem;color:{ACCENT};'>{int(val*100)}% — below this = Cerebro AI answers</div>", unsafe_allow_html=True)
-    with sc2:
-        st.markdown(f"<div style='font-size:0.82rem;font-weight:600;color:{TEXT};margin-bottom:8px;'>👤 Account</div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='font-size:0.82rem;color:{TEXT};line-height:2;'>Name: <b>{st.session_state.user_name}</b><br>Email: <b>{st.session_state.user_email}</b></div>", unsafe_allow_html=True)
-    with sc3:
-        st.markdown(f"<div style='font-size:0.82rem;font-weight:600;color:{TEXT};margin-bottom:8px;'>🎨 Theme</div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='font-size:0.82rem;color:{TEXT};line-height:2;'>{'🌙 Dark Mode' if D else '☀️ Light Mode'}<br><span style='color:{SUBTEXT};font-size:0.76rem;'>Toggle in sidebar</span></div>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown(f"""<div style='text-align:center;padding:24px 0 6px;'>
 <span style='font-size:3.6rem;display:inline-block;animation:brainPulse 3s ease-in-out infinite;line-height:1;margin-bottom:10px;'>🧠</span>
-<div style='font-family:Syne,sans-serif;font-weight:800;font-size:3rem;letter-spacing:-1px;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;'>CEREBRO</div>
+<div style='font-family:Syne,sans-serif;font-weight:800;font-size:3rem;letter-spacing:-1px;color:{ACCENT};'>CEREBRO</div>
 <div style='font-size:0.77rem;color:{SUBTEXT};letter-spacing:4px;text-transform:uppercase;margin-top:8px;'>The Knowledge Brain &nbsp;·&nbsp; Ask Anything</div>
 </div><div class='cline'></div>""", unsafe_allow_html=True)
 
