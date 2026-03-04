@@ -3,6 +3,9 @@
 import nltk
 import string
 import requests
+import os
+from dotenv import load_dotenv
+load_dotenv()
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -20,7 +23,7 @@ lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
 
 # ── Gemini API Config ──────────────────────────────────────────────────────────
-GEMINI_API_KEY = "AIzaSyDsyjEeFrFcICwxFU0iSRNv8KqTaU8m9iQ"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
 
 CEREBRO_SYSTEM_PROMPT = """You are Cerebro — an incredibly intelligent, witty, and genius-level AI assistant.
