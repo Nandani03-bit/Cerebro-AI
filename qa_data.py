@@ -44,7 +44,7 @@ qa_pairs = [
     ("Hi", "Hi there! Welcome to the General Knowledge Chatbot. Feel free to ask me any question!"),
     ("How are you?", "I'm doing great, thank you! I'm ready to answer your general knowledge questions."),
     ("What can you do?", "I can answer general knowledge questions on topics like science, history, geography, and technology. Try asking me something!"),
-    ("Who made you?", "I was built as an NLP project using Python, NLTK, and scikit-learn for text similarity matching."),
+    ("Who made you?", "I was built by Nandani Patwa as an NLP project using Python, NLTK, and scikit-learn for text similarity matching."),
     ("Bye", "Goodbye! It was great chatting with you. Come back anytime!"),
     ("Thank you", "You're welcome! Feel free to ask more questions anytime."),
 ]
