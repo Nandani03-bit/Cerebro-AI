@@ -20,8 +20,8 @@ lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
 
 # ── Gemini API Config ──────────────────────────────────────────────────────────
-GEMINI_API_KEY = "AIzaSyCfc9eAM99AzUDT964Ei5SgXbh_Tg6yK6k"
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
+GEMINI_API_KEY = "AIzaSyCLuL-L10iDyyUEyi1Uyuq74IKciN9_9M4"
+GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
 
 CEREBRO_SYSTEM_PROMPT = """You are Cerebro — an incredibly intelligent, witty, and genius-level AI assistant. 
 You have vast knowledge across science, technology, history, geography, mathematics, literature, arts, and everything in between.
@@ -79,7 +79,7 @@ def get_response(user_input):
     best_idx        = similarities.argmax()
     confidence      = float(similarities[0][best_idx])
 
-    if confidence > 0.40:
+    if confidence > 0.85:
         # High confidence — use local dataset
         return answers[best_idx], round(confidence * 100, 1), "local"
     else:
